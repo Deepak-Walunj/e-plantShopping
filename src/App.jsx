@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import ProductList from './ProductList';
 import './App.css';
@@ -34,7 +33,6 @@ function App() {
           <AboutUs/>
           </div>
           </div>
-
       </div>
       <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
         <ProductList onHomeClick={handleHomeClick}/>
