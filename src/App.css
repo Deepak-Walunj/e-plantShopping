@@ -30,15 +30,15 @@
   justify-content: center;
   height: 100vh;
   width: 100vw;
- top: 100px;
+  top: 100px;
   backdrop-filter: blur(4px);
   background-color: rgba(0,0,0,0.5);
   gap: 20px;
 }
 
 .landing_content {
- margin-top: 430px;
-  margin-left: 100px;
+  margin-top: 430px;
+  margin-left: 200px;
   transform: translate(-50%, -50%);
   z-index: 1;
   text-align: center;
@@ -71,6 +71,7 @@
   height: 2px;
   background-color: #4caf50;
   margin: 10px 0;
+  padding-left: 100px;
 }
 
 .get-started-button {
@@ -124,7 +125,8 @@
 
   .landing_content {
     margin-top: 100px; /* Adjust as needed */
-    margin-left: 0;
+    margin-left: 100px;
+    padding: 20px;
     width: 80%; /* Adjust as needed */
     text-align: center;
   }
