@@ -10,6 +10,7 @@ import { initDependencies, shutdownDependencies } from './core/deps.js';
 import { appExceptionHandler, validationExceptionHandler, genericExceptionHandler } from './middleware/errorHandler.js';
 
 const logger = getLogger('server.js');
+logger.info("Initializing server script...");
 
 export async function startServer() {
     const app = express();
@@ -22,7 +23,13 @@ export async function startServer() {
         app.use(express.json());
         app.use(cookieParser());
         app.use(cors({
-            origin: ALLOWED_ORIGINS,
+            origin: function (origin, callback) {
+                if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+                    callback(null, true);
+                } else {
+                    callback(new Error("Not allowed by CORS"));
+                }
+            },
             credentials: true,
             methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
@@ -37,7 +44,7 @@ export async function startServer() {
         //     logger.info({ method: req.method, url: req.url }, 'Incoming request');
         //     next();
         // });
-        console.log("MIDDLEWARE HIT");
+        logger.info("MIDDLEWARE HIT");
 
         // ── Routes ──
         app.get('/health', (req, res) => {
@@ -81,7 +88,7 @@ export async function startServer() {
         const shutdown = async (signal) => {
             logger.info({ signal }, 'Closing server gracefully');
             clearInterval(keepAlive);
-            
+
             const cleanup = async () => {
                 try {
                     await shutdownDependencies();

@@ -21,3 +21,5 @@ export const MONGODB_URI = process.env.MONGODB_URI;
 export const DATABASE_NAME = process.env.DATABASE_NAME;
 
 export const REDIS_URL = process.env.REDIS_URL;
+
+export const ELASTICSEARCH_LOGS_ENABLED = process.env.ELASTICSEARCH_LOGS_ENABLED === 'true';

@@ -38,7 +38,12 @@ class RedisCache {
         });
 
         this.client.on('error', (err) => logger.error({ err }, 'Redis Client Error'));
-        this.client.connect().catch(err => logger.error({ err }, 'Failed to connect to Redis'));
+        this.client.connect().then(async () => {
+            logger.info("Connected to Upstash Redis successfully");
+            await this.client.set('foo', 'bar'); // Test command
+            const val = await this.client.get('foo');
+            logger.info({ val }, "Redis test value read");
+        }).catch(err => logger.error({ err }, 'Failed to connect to Redis'));
     }
 
     async get(key) {

@@ -4,14 +4,14 @@ import pretty from "pino-pretty"; // Import directly to avoid worker thread issu
 import { getRequestContext } from "./requestContext.js";
 import {
     LOG_LEVEL,
-    ENV,
+    ELASTICSEARCH_LOGS_ENABLED
 } from "../core/settings.js";
 
 // Bypass worker-thread transports entirely in development
 // The APM Native hook can sometimes block Worker Thread standard outputs on Windows
 let stream;
 
-if (ENV === "production" || ENV === "prod") {
+if (ELASTICSEARCH_LOGS_ENABLED) {
     // In production, send completely async to Elasticsearch
     stream = pino.transport({
         target: 'pino-elasticsearch',
@@ -19,7 +19,7 @@ if (ENV === "production" || ENV === "prod") {
         options: {
             index: 'app-logs',
             node: 'http://localhost:9200',
-            esVersion: 7, 
+            esVersion: 7,
             flushBytes: 1000,
         }
     });
@@ -30,7 +30,7 @@ if (ENV === "production" || ENV === "prod") {
         colorize: true,
         translateTime: 'SYS:standard',
         ignore: "pid,hostname",
-        sync: true 
+        sync: true
     });
 }
 
