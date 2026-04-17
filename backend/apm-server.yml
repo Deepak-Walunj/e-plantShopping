@@ -1,0 +1,10 @@
+apm-server:
+  host: "0.0.0.0:8200"
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+
+# Kibana connection for APM UI integration
+apm-server.kibana:
+  enabled: true
+  host: "http://kibana:5601"
