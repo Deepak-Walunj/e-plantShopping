@@ -47,6 +47,11 @@ export async function startServer() {
         logger.info("MIDDLEWARE HIT");
 
         // ── Routes ──
+
+        app.get('/', (req, res) => {
+            res.send("Hello World from e-plantShopping");
+        })
+
         app.get('/health', (req, res) => {
             res.json({
                 status: 'healthy',

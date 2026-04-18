@@ -1,23 +1,37 @@
 import React, { useState } from 'react';
-import ProductList from './ProductList';
-import './App.css';
-import AboutUs from './AboutUs';
+import ProductList from '@/components/pages/cart/ProductList';
+import '@/components/pages/css/App.css';
+import AboutUs from '@/components/pages/landing/AboutUs';
+import Login from '@/components/pages/auth/Login';
+import Signup from '@/components/pages/auth/Signup';
 
 function App() {
-  
-  const [showProductList, setShowProductList] = useState(false);
+  const [currentPage, setCurrentPage] = useState('landing'); 
+  // 'landing', 'login', 'signup', 'products'
 
   const handleGetStartedClick = () => {
-    setShowProductList(true);
+    setCurrentPage('login');
   };
 
   const handleHomeClick = () => {
-    setShowProductList(false);
+    setCurrentPage('landing');
+  };
+
+  const navigateToLogin = () => {
+    setCurrentPage('login');
+  };
+
+  const navigateToSignup = () => {
+    setCurrentPage('signup');
+  };
+
+  const handleAuthSuccess = () => {
+    setCurrentPage('products');
   };
 
   return (
     <div className="app-container">
-      <div className={`landing-page ${showProductList ? 'fade-out' : ''}`}>
+      <div className={`landing-page ${currentPage === 'products' ? 'fade-out' : ''}`}>
         <div className="background-image"></div>
           <div className="content">
             <div className="landing_content">
@@ -33,7 +47,22 @@ function App() {
             </div>
           </div>
       </div>
-      <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
+
+      {currentPage === 'login' && (
+        <Login 
+          onLoginSuccess={handleAuthSuccess}
+          onNavigateToSignup={navigateToSignup} 
+        />
+      )}
+
+      {currentPage === 'signup' && (
+        <Signup 
+          onSignupSuccess={handleAuthSuccess}
+          onNavigateToLogin={navigateToLogin} 
+        />
+      )}
+
+      <div className={`product-list-container ${currentPage === 'products' ? 'visible' : ''}`}>
         <ProductList onHomeClick={handleHomeClick}/>
       </div>
     </div>
