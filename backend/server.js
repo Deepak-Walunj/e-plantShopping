@@ -9,6 +9,8 @@ import { PORT, ALLOWED_ORIGINS, ENV } from './core/settings.js';
 import { initDependencies, shutdownDependencies } from './core/deps.js';
 import { appExceptionHandler, validationExceptionHandler, genericExceptionHandler } from './middleware/errorHandler.js';
 
+import userRoutes from './api/user.js';
+
 const logger = getLogger('server.js');
 logger.info("Initializing server script...");
 
@@ -47,6 +49,7 @@ export async function startServer() {
         logger.info("MIDDLEWARE HIT");
 
         // ── Routes ──
+        app.use('/user', userRoutes);
 
         app.get('/', (req, res) => {
             res.send("Hello World from e-plantShopping");

@@ -20,9 +20,6 @@ export function appExceptionHandler(err, req, res, next) {
     next(err);
 }
 
-/**
- * Handles Validation errors (Joi, Mongoose, etc)
- */
 export function validationExceptionHandler(err, req, res, next) {
     // Joi Validation
     if (err.isJoi) {
@@ -41,7 +38,6 @@ export function validationExceptionHandler(err, req, res, next) {
         });
     }
 
-    // Mongoose/DB Validation
     if (err.name === 'ValidationError') {
         const details = Object.values(err.errors || {}).map(e => ({
             field: e.path,

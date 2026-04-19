@@ -1,8 +1,16 @@
-import { connectDB, disconnectDB } from "../database/database.js";
-import { getLogger } from "../observability/logger.js";
-import { ENV, REDIS_URL } from "./settings.js";
-import { initDatabase } from "../database/database_init.js";
 import { createClient } from "redis";
+
+import { COLLECTIONS } from "../database/collection.js";
+import { connectDB, disconnectDB } from "../database/database.js";
+import { initDatabase } from "../database/database_init.js";
+
+import { getLogger } from "../observability/logger.js";
+
+import UserRepo from "../repo/user.js";
+
+import AuthService from "../service/auth.js";
+
+import { ENV, REDIS_URL } from "./settings.js";
 
 const logger = getLogger("deps.js");
 
@@ -84,6 +92,8 @@ class DependencyStorage {
         if (!db) logger.error('Database not initialized');
         this._cache = cache;
         this._db = db;
+        this.userRepo = new UserRepo(db.collection(COLLECTIONS.USERS))
+        this.authService = new AuthService(this.userRepo)
     }
 
     getCache() {
@@ -92,6 +102,14 @@ class DependencyStorage {
 
     getDB() {
         return this._db;
+    }
+
+    async getUserRepo() {
+        return this.userRepo
+    }
+
+    async getAuthService() {
+        return this.authService
     }
 }
 
@@ -148,3 +166,10 @@ export const shutdownDependencies = async () => {
     dependency_storage = null;
     logger.info("Dependencies shutdown complete");
 };
+
+export const getAuthService = () => {
+    if (!dependency_storage) {
+        throw new Error('Dependencies not initialized');
+    }
+    return dependency_storage.getAuthService();
+}

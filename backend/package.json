@@ -12,11 +12,13 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.1",
     "elastic-apm-node": "^4.15.0",
     "express": "^5.2.1",
+    "joi": "^18.1.2",
     "mongodb": "^7.1.1",
     "pino": "^10.3.1",
     "pino-elasticsearch": "^8.1.0",
