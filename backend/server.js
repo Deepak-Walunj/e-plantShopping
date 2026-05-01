@@ -10,6 +10,7 @@ import { initDependencies, shutdownDependencies } from './core/deps.js';
 import { appExceptionHandler, validationExceptionHandler, genericExceptionHandler } from './middleware/errorHandler.js';
 
 import userRoutes from './api/user.js';
+import authRoutes from './api/auth.js';
 
 const logger = getLogger('server.js');
 logger.info("Initializing server script...");
@@ -50,6 +51,7 @@ export async function startServer() {
 
         // ── Routes ──
         app.use('/user', userRoutes);
+        app.use('/auth', authRoutes);
 
         app.get('/', (req, res) => {
             res.send("Hello World from e-plantShopping");

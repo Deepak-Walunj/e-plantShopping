@@ -15,7 +15,9 @@ class UserRepo {
     }
 
     async createUser(userData) {
-        userData.email = userData.email.toLowerCase().trim();
+        if (userData.email) {
+            userData.email = userData.email.toLowerCase().trim();
+        }
 
         userData.createdAt = new Date();
         userData.updatedAt = new Date();
@@ -28,6 +30,11 @@ class UserRepo {
         };
     }
 
+    async getUserByName(name) {
+        logger.info({ name }, "Find by name request")
+        return this.collection.findOne({ name })
+    }
+
     async linkGoogleAccount(userId, googleId) {
         const result = await this.collection.findOneAndUpdate(
             { _id: userId },
@@ -36,6 +43,21 @@ class UserRepo {
                     googleId,
                     authProvider: AuthProvider.GOOGLE,
                     isEmailVerified: true,
+                    updatedAt: new Date()
+                }
+            },
+            { returnDocument: 'after' }
+        );
+        return result.value || result;
+    }
+
+    async updateVerificationStatus(email, isEmailVerified) {
+        logger.info({ email, isEmailVerified }, "Update verification status request")
+        const result = await this.collection.findOneAndUpdate(
+            { email },
+            {
+                $set: {
+                    isEmailVerified,
                     updatedAt: new Date()
                 }
             },

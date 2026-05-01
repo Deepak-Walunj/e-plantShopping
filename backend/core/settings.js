@@ -6,6 +6,7 @@ export const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS
     ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
     : ['http://localhost:5173'];
 export const ENV = process.env.NODE_ENV || 'development';
+export const FRONTEND_URL = process.env.FRONTEND_URL;
 
 export const ELASTIC_APM_ENABLED = process.env.ELASTIC_APM_ENABLED === 'true';
 export const ELASTIC_APM_SERVER_URL = process.env.ELASTIC_APM_SERVER_URL;
@@ -23,3 +24,8 @@ export const DATABASE_NAME = process.env.DATABASE_NAME;
 export const REDIS_URL = process.env.REDIS_URL;
 
 export const ELASTICSEARCH_LOGS_ENABLED = process.env.ELASTICSEARCH_LOGS_ENABLED === 'true';
+
+export const EMAIL_SECRET_KEY = process.env.EMAIL_SECRET_KEY;
+export const EMAIL_TOKEN_EXPIRE_IN_MINUTES = parseInt(process.env.EMAIL_TOKEN_EXPIRE_IN_MINUTES || '10');
+export const RESEND_API_KEY = process.env.RESEND_API_KEY;
+export const DEVELOPER_EMAIL = process.env.DEVELOPER_EMAIL;
