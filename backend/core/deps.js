@@ -10,7 +10,7 @@ import UserRepo from "../repo/user.js";
 
 import AuthService from "../service/auth.js";
 
-import { ENV, REDIS_URL } from "./settings.js";
+import { ENV, REDIS_URL, DEMO_TTL_MINUTES } from "./settings.js";
 
 const logger = getLogger("deps.js");
 
@@ -93,7 +93,7 @@ class DependencyStorage {
         this._cache = cache;
         this._db = db;
         this.userRepo = new UserRepo(db.collection(COLLECTIONS.USERS))
-        this.authService = new AuthService(this.userRepo)
+        this.authService = new AuthService(this.userRepo, DEMO_TTL_MINUTES)
     }
 
     getCache() {

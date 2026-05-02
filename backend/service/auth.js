@@ -12,8 +12,9 @@ import { sendVerificationEmail } from '../client/email.js'
 const logger = getLogger('auth.js')
 
 class AuthService {
-    constructor(userRepository) {
+    constructor(userRepository, demoTtlMinutes) {
         this.userRepository = userRepository
+        this.demoTtlMinutes = demoTtlMinutes
     }
 
     async generateUniqueDemoUsername() {
@@ -112,7 +113,8 @@ class AuthService {
                 googleId: null,
                 isEmailVerified: false,
                 roles: [userType],
-                isActive: true
+                isActive: true,
+                expiresAt: new Date(Date.now() + this.demoTtlMinutes * 60 * 1000)
             };
             const validatedUser = await userModel.validateAsync(userPayload);
             const user = await this.userRepository.createUser(validatedUser)

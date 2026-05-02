@@ -16,7 +16,12 @@ export async function initDatabase(db) {
 
     await db.collection(COLLECTIONS.USERS).createIndex(
         { email: 1 },
-        { unique: true }
+        { unique: true },
+    )
+
+    await db.collection(COLLECTIONS.USERS).createIndex(
+        { expiresAt: 1 },
+        { expireAfterSeconds: 0 },
     )
 
     await db.collection(COLLECTIONS.ADMINS).createIndex(

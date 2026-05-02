@@ -24,4 +24,9 @@ export const userModel = Joi.object({
     isActive: Joi.boolean().default(true),
     createdAt: Joi.date().optional(),
     updatedAt: Joi.date().optional(),
+    expiresAt: Joi.when('roles', {
+        is: Joi.array().items(Joi.valid(EntityType.DEMO_USER)),
+        then: Joi.date().required(),
+        otherwise: Joi.allow(null)
+    })
 });

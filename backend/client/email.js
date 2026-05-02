@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import { RESEND_API_KEY, FRONTEND_URL, DEVELOPER_EMAIL } from '../core/settings.js';
+import { RESEND_API_KEY, FRONTEND_URL, DEVELOPER_DOMAIN } from '../core/settings.js';
 import { getLogger } from "../observability/logger.js";
 
 const logger = getLogger("email.js");
@@ -9,10 +9,10 @@ const resend = new Resend(RESEND_API_KEY);
 async function sendVerificationEmail(user_registration_email, token) {
     const verificationUrl = `${FRONTEND_URL}/auth/verify-email?token=${token}`;
     try {
-        logger.info({ registered_email: user_registration_email, sent_to: DEVELOPER_EMAIL }, "Verification email redirected to developer inbox")
+        logger.info({ registered_email: user_registration_email, sent_to: user_registration_email }, "Verification email redirected to developer inbox")
         const response = await resend.emails.send({
-            from: "Plant Shopping <onboarding@resend.dev>", // temporary sender
-            to: DEVELOPER_EMAIL,
+            from: `Plant Shopping <onboarding@${DEVELOPER_DOMAIN}>`,
+            to: user_registration_email,
             subject: "Verify your email",
             html: `
         <div style="font-family: Arial, sans-serif; background:#f4f4f4; padding:40px">
@@ -47,7 +47,7 @@ async function sendVerificationEmail(user_registration_email, token) {
       `
         });
         console.log("RESEND RAW RESPONSE:", response);
-        logger.info({ DEVELOPER_EMAIL, response }, "Verification email sent");
+        logger.info({ user_registration_email, response }, "Verification email sent");
     } catch (err) {
         logger.error("Email send error:", err);
         throw err;
