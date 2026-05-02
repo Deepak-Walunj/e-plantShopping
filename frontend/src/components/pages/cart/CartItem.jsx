@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { removeItem, updateQuantity } from '@/predefined_components/CartSlice.jsx';
+import { removeItem, updateQuantity } from '@store/CartSlice.jsx';
 import '@/components/pages/css/CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import '@/components/pages/css/Login.css';
 
-const Login = ({ onLoginSuccess, onNavigateToSignup }) => {
+const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -9,14 +11,14 @@ const Login = ({ onLoginSuccess, onNavigateToSignup }) => {
     e.preventDefault();
     console.log('Email Login credentials:', { email, password });
     // Simulate login
-    onLoginSuccess();
+    navigate('/user/products');
   };
 
   const handleGoogleLogin = (e) => {
     e.preventDefault();
     console.log('Google Login flow started');
     // Simulate google login
-    onLoginSuccess();
+    navigate('/user/products');
   };
 
   return (
@@ -63,7 +65,7 @@ const Login = ({ onLoginSuccess, onNavigateToSignup }) => {
         </form>
 
         <div className="auth-footer">
-          <p>Don't have an account? <span onClick={onNavigateToSignup} className="auth-link">Sign up</span></p>
+          <p>Don't have an account? <Link to="/auth/signup" className="auth-link">Sign up</Link></p>
         </div>
       </div>
     </div>

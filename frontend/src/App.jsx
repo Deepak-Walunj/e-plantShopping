@@ -1,75 +1,96 @@
-import React, { useState } from 'react';
-import ProductList from '@/components/pages/cart/ProductList';
-import '@/components/pages/css/App.css';
-import AboutUs from '@/components/pages/landing/AboutUs';
-import Login from '@/components/pages/auth/Login';
-import Signup from '@/components/pages/auth/Signup';
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 
-function App() {
-  const [currentPage, setCurrentPage] = useState('landing'); 
-  // 'landing', 'login', 'signup', 'products'
+// Layouts
+import AuthLayout from '@layouts/AuthLayout';
+import UserLayout from '@layouts/UserLayout';
+import AdminLayout from '@layouts/AdminLayout';
+import RootLayout from '@layouts/RootLayout';
 
-  const handleGetStartedClick = () => {
-    setCurrentPage('login');
-  };
+// Error Pages
+import UnderConstruction from '@pages/error/UnderConstruction';
+import UnknownPage from '@pages/error/UnknownPage';
 
-  const handleHomeClick = () => {
-    setCurrentPage('landing');
-  };
+// Pages - Public
+import LandingPage from '@pages/landing/LandingPage';
 
-  const navigateToLogin = () => {
-    setCurrentPage('login');
-  };
+// Pages - Auth
+import Login from '@pages/auth/Login';
+import Signup from '@pages/auth/Signup';
+import VerifyEmail from '@pages/auth/EmailVerificationPage';
 
-  const navigateToSignup = () => {
-    setCurrentPage('signup');
-  };
+// Pages - User
+import ProductList from '@pages/cart/ProductList';
 
-  const handleAuthSuccess = () => {
-    setCurrentPage('products');
-  };
+const router = createBrowserRouter([
+  {
+    element: <RootLayout />,
+    errorElement: <UnderConstruction />,
+    children: [
+      {
+        path: "/",
+        element: <LandingPage />
+      },
+      {
+        path: "/auth",
+        element: <AuthLayout />,
+        children: [
+          {
+            path: "login",
+            element: <Login />
+          },
+          {
+            path: "signup",
+            element: <Signup />
+          },
+          {
+            path: "verify-email",
+            element: <VerifyEmail />
+          },
+          {
+            path: "resend-verification",
+            element: <div>Resend Verification Page (Coming Soon)</div>
+          }
+        ]
+      },
+      {
+        path: "/user",
+        element: <UserLayout />,
+        children: [
+          {
+            path: "products",
+            element: <ProductList />
+          },
+        ]
+      },
+      {
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+          {
+            index: true,
+            element: <div>Admin Dashboard (Coming Soon)</div>
+          },
+          {
+            path: "products",
+            element: <div>Admin Manage Products (Coming Soon)</div>
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "*",
+    element: <UnknownPage />
+  }
+]);
 
+export default function App() {
   return (
-    <div className="app-container">
-      <div className={`landing-page ${currentPage === 'products' ? 'fade-out' : ''}`}>
-        <div className="background-image"></div>
-          <div className="content">
-            <div className="landing_content">
-              <h1>Welcome To Paradise Nursery</h1>
-                <div className="divider"></div>
-                  <p>Where Green Meets Serenity</p>
-                  <button className="get-started-button" onClick={handleGetStartedClick}>
-                  Get Started
-                  </button>
-                </div>
-              <div className="aboutus_container">
-              <AboutUs/>
-            </div>
-          </div>
-      </div>
-
-      {currentPage === 'login' && (
-        <Login 
-          onLoginSuccess={handleAuthSuccess}
-          onNavigateToSignup={navigateToSignup} 
-        />
-      )}
-
-      {currentPage === 'signup' && (
-        <Signup 
-          onSignupSuccess={handleAuthSuccess}
-          onNavigateToLogin={navigateToLogin} 
-        />
-      )}
-
-      <div className={`product-list-container ${currentPage === 'products' ? 'visible' : ''}`}>
-        <ProductList onHomeClick={handleHomeClick}/>
-      </div>
-    </div>
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <RouterProvider router={router} />
+    </>
   );
 }
-
-export default App;
-
-
-

@@ -1,10 +1,12 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
 import '@/components/pages/css/ProductList.css'
-import { addItem} from '@/predefined_components/CartSlice.jsx';
+import { addItem } from '@store/CartSlice.jsx';
 import CartItem from '@/components/pages/cart/CartItem.jsx';
 
-function ProductList({ onHomeClick }) {
+function ProductList() {
+    const navigate = useNavigate();
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const addedItems = useSelector((state) => state.cart.addedItems)
@@ -238,10 +240,10 @@ function ProductList({ onHomeClick }) {
         textDecoration: 'none',
     }
 
-    const dispatch =useDispatch()
+    const dispatch = useDispatch()
     const handleHomeClick = (e) => {
         e.preventDefault();
-        onHomeClick();
+        navigate('/');
     };
 
     const handleCartClick = (e) => {
@@ -259,13 +261,13 @@ function ProductList({ onHomeClick }) {
         setShowCart(false);
     };
 
-    const handleAddToCart = (plant) =>{
+    const handleAddToCart = (plant) => {
         dispatch(addItem({
             ...plant,
             cost: parseFloat(plant.cost.replace('$', ''))
         }))
     }
-    
+
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -285,20 +287,20 @@ function ProductList({ onHomeClick }) {
                     <div> <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
                         <h1 className='cart'>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68">
-                            <rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle>
+                                <rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle>
                                 <path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path>
                             </svg>
                             {Object.keys(addedItems).length > 0 && (
                                 <span className="cart-count">{Object.keys(addedItems).length}</span>
                             )}
                         </h1>
-                        </a>
+                    </a>
                     </div>
                 </div>
             </div>
             {!showCart ? (
                 <div className="product-grid">
-                    {plantsArray.map((item,idx) => (
+                    {plantsArray.map((item, idx) => (
                         <div key={idx}>
                             <h1><div>Category: {item.category}</div></h1>
                             <div className='product-list'>

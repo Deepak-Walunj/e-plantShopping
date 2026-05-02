@@ -10,9 +10,12 @@
     "preview": "vite build; vite preview --host"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.13.5",
     "@reduxjs/toolkit": "^2.2.3",
+    "axios": "^1.15.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hot-toast": "^2.6.0",
     "react-redux": "^9.1.1",
     "react-router-dom": "^7.3.0"
   },

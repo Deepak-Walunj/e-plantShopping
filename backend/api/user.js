@@ -20,10 +20,8 @@ router.post('/signup', async (req, res, next) => {
         if (error) {
             return next(new ValidationError(error.details))
         }
-
         const result = await auth_service.signup(value)
-
-        res.json(new StandardResponse(true, "Signup request success", result))
+        res.json(new StandardResponse(true, result.message, result))
     } catch (error) {
         next(error)
     }

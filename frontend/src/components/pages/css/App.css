@@ -1,149 +1,174 @@
-/* LandingPage.css */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  overflow: hidden;
-}
+/* LandingPage.css & Global Layouts */
 
 .landing-page {
   position: relative;
-  width: 100vw;
   height: 100vh;
-  background-color: #f8f8f8;
+  width: 100vw;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+  background-color: transparent;
 }
 
-.background-image {
+.landing-bg-anim {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('https://cdn.pixabay.com/photo/2017/07/13/08/59/greenhouse-2499758_1280.jpg');
-  background-size: 100% 100%;
+  background-size: cover;
   background-position: center;
-  filter: brightness(0.8);
+  background-attachment: fixed;
+  z-index: 0;
+  animation: bg-zoom 20s infinite alternate linear;
 }
+
+.landing-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.4) 0%, rgba(5, 8, 15, 0.8) 100%);
+  backdrop-filter: blur(2px);
+  z-index: 1;
+}
+
+@keyframes bg-zoom {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.1);
+  }
+}
+
 .content {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw;
-  top: 100px;
-  backdrop-filter: blur(4px);
-  background-color: rgba(0,0,0,0.5);
-  gap: 20px;
+  justify-content: space-between;
+  gap: 50px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  /* flex-wrap: wrap; */
 }
 
 .landing_content {
-  margin-top: 430px;
-  margin-left: 200px;
-  transform: translate(-50%, -50%);
-  z-index: 1;
+  flex: 1;
   text-align: center;
-  /* background-color: red; */
-  width: 400px;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
+  max-width: 500px;
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  animation: slideUp 1s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.landing_content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #ffffff, var(--color-primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+}
+
+.landing_content p {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+  color: var(--color-text);
+  font-weight: 300;
+}
+
+.button-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
 
-.content p,
-.content h1 {
-  color: white;
-}
-
-.content h1 {
-  font-size: 48px;
-  margin-bottom: 10px;
-}
-
-.content p {
-  font-size: 25px;
-}
-
 .divider {
-  width: 50px;
-  height: 2px;
-  background-color: #4caf50;
-  margin: 10px 0;
-  padding-left: 100px;
+  width: 60px;
+  height: 4px;
+  background-color: var(--color-primary);
+  margin: 0 auto 25px;
+  border-radius: 2px;
+  box-shadow: 0 0 10px var(--color-primary);
 }
 
 .get-started-button {
-  padding: 15px 25px;
-  font-size: 23px;
+  padding: 14px 35px;
+  font-size: 1.2rem;
   border: none;
-  border-radius: 5px;
-  background-color: #4caf50;
-  color: white;
+  border-radius: 50px;
+  background-color: var(--color-primary);
+  color: #000;
+  font-weight: 700;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 40px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(102, 252, 241, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .get-started-button:hover {
-  background-color: #45a049;
+  background-color: #ffffff;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+  transform: translateY(-3px);
 }
 
-/* ProductList.css */
-
-.product-list-container {
-  position: absolute;
-  overflow-x: hidden;
-  top: 100vh;
-  /* Initially off-screen */
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(255, 255, 255, 0.9);
-  /* Adjust background opacity as needed */
-  transition: top 0.5s ease;
-  /* Smooth transition for top property */
-  overflow-y: auto;
-  /* Enable vertical scrolling */
-  z-index: 2;
-  /* Ensure it's above landing page content */
-  backdrop-filter: blur(5px);
+.aboutus_container {
+  flex: 1.3;
+  max-width: 650px;
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  animation: fadeInRight 1s ease-out forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
 }
 
-.product-list-container.visible {
-  top: 0;
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
-/* LandingPage.css */
-@media screen and (max-width: 768px) {
+
+@media screen and (max-width: 900px) {
   .content {
     flex-direction: column;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
+    padding-top: 80px;
   }
 
-  .landing_content {
-    margin-top: 100px; /* Adjust as needed */
-    margin-left: 100px;
-    padding: 20px;
-    width: 80%; /* Adjust as needed */
-    text-align: center;
-  }
-
-  .aboutus_container {
-    margin-top: 20px; /* Adjust as needed */
-    width: 80%; /* Adjust as needed */
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .landing_content {
-    margin-top: 50px; /* Adjust as needed */
-    width: 90%; /* Adjust as needed */
-  }
-
-  .aboutus_container {
-    width: 90%; /* Adjust as needed */
+  .landing_content h1 {
+    font-size: 2.5rem;
   }
 }

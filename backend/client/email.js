@@ -7,7 +7,7 @@ const logger = getLogger("email.js");
 const resend = new Resend(RESEND_API_KEY);
 
 async function sendVerificationEmail(user_registration_email, token) {
-    const verificationUrl = `${FRONTEND_URL}/verify-email?token=${token}`;
+    const verificationUrl = `${FRONTEND_URL}/auth/verify-email?token=${token}`;
     try {
         logger.info({ registered_email: user_registration_email, sent_to: DEVELOPER_EMAIL }, "Verification email redirected to developer inbox")
         const response = await resend.emails.send({
